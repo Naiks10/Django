@@ -1,0 +1,42 @@
+
+{% extends 'base.html' %}
+{% block head %}
+<title>Главная</title>
+<meta name="description" content="{{ desc }}"/>
+<meta name="keywords" content="{{ key }}"/>
+{% endblock %}
+ 
+{% block body %}
+
+  {% if not posts %}
+  <b>Статьи не найдены</b>
+  {% else %}
+  <div class="container">
+    <div class="row">
+    {% for obj in posts %}
+    <div class="col">
+        <div class = "m-3">
+    <div class="card" style="width: 18rem; height: 25rem;">
+        <img class="card-img-top" src="{{ obj.image.url }}" style="height: 9rem;" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{ obj.title }}</h5>
+          <p class="card-text">{{ obj.content|truncatechars:70 }}</p>
+          <a href="{{ obj.get_absolute_url }}" class="btn btn-outline-danger">Читать далее</a>
+        </div>
+    </div>
+    </div>
+      </div>
+    {% endfor %}
+</div>
+</div>
+  {% endif %}
+ <div class="mx-auto" style="margin-bottom : 2%; margin-top: 2%; width: 200px">
+  {% if posts.has_previous %}
+  <a href="?page={{ posts.previous_page_number }}" class="btn btn-outline-danger">Назад</a>
+  {% endif %}
+  <span class="btn btn-outline-danger">{{ posts.number }} {{ posts.num_pages }}</span>
+  {% if posts.has_next %}
+  <a href="?page={{ posts.next_page_number }}" class="btn btn-outline-danger">Вперед</a>
+  {% endif %}
+</div>
+{% endblock %}
